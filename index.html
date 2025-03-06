@@ -1,5 +1,68 @@
 <!DOCTYPE html>
 <html>
+  import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+export default function SavingsApp() {
+  const [balance, setBalance] = useState(1000);
+  const [loan, setLoan] = useState(0);
+  const [amount, setAmount] = useState("");
+  const [interestRate, setInterestRate] = useState(5);
+
+  const handleDeposit = () => {
+    setBalance(balance + parseFloat(amount));
+    setAmount("");
+  };
+
+  const handleWithdraw = () => {
+    if (balance >= amount) {
+      setBalance(balance - parseFloat(amount));
+    } else {
+      alert("Insufficient balance!");
+    }
+    setAmount("");
+  };
+
+  const handleLoan = () => {
+    setLoan(loan + parseFloat(amount));
+    setBalance(balance + parseFloat(amount));
+    setAmount("");
+  };
+
+  const calculateInterest = () => {
+    return ((balance * interestRate) / 100).toFixed(2);
+  };
+
+  return (
+    <div className="p-6 max-w-lg mx-auto">
+      <Card className="mb-4 p-4">
+        <CardContent>
+          <h2 className="text-xl font-bold">Savings Account</h2>
+          <p>Balance: ${balance}</p>
+          <p>Loan: ${loan}</p>
+          <p>Interest Earned: ${calculateInterest()}</p>
+        </CardContent>
+      </Card>
+
+      <Input
+        type="number"
+        placeholder="Enter amount"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        className="mb-2"
+      />
+
+      <div className="flex space-x-2">
+        <Button onClick={handleDeposit} className="bg-green-500">Deposit</Button>
+        <Button onClick={handleWithdraw} className="bg-red-500">Withdraw</Button>
+        <Button onClick={handleLoan} className="bg-blue-500">Take Loan</Button>
+      </div>
+    </div>
+  );
+}
+
 <body>
 <h1> Indeva</H1>
 <p> Initiative for Development Activities India</p>
